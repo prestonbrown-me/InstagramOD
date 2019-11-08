@@ -17,6 +17,7 @@ ratelimit = {
     'user_error': 60 * 30
 }
 
+# get followers for PK as user objects
 def getTotalFollowers(api, user_id, maxRetrieve = 0):
     followers = []
     next_max_id = True
@@ -39,6 +40,7 @@ def getTotalFollowers(api, user_id, maxRetrieve = 0):
 
     return followers
 
+# get following for PK as user objects
 def getTotalFollowing(api, user_id, maxRetrieve = 0):
     following = []
     next_max_id = True
@@ -59,6 +61,7 @@ def getTotalFollowing(api, user_id, maxRetrieve = 0):
 
     return following
 
+# convert list of rich follower list into only a list of PKs
 def user_pk_list(followList):
     result = []
     for item in followList:
@@ -66,18 +69,21 @@ def user_pk_list(followList):
 
     return result
 
+# unfollow user with PK
 def unfollow_user(api, user_id):
     while not api.unfollow(user_id):
         print("FAULT: Failed to unfollow user. Sleeping for 1 hour")
         print(datetime.datetime.now())
         time.sleep(ratelimit['interaction_error'])
 
+# follow user with PK
 def follow_user(api, user_id):
     while not api.follow(user_id):
         print("FAULT: Failed to follow user. Sleeping for 1 hour")
         print(datetime.datetime.now())
         time.sleep(ratelimit['interaction_error'])
 
+# unfollow all accounts you currently follow
 def unfollow_all():
     api = None
     with open("apiPickleFile.p", "rb") as f:
@@ -93,6 +99,7 @@ def unfollow_all():
         unfollow_user(api, item['pk'])
         time.sleep(ratelimit['interaction_delay'])
 
+# unfollow all accounts that don't follow you back
 def unfollow_nonmutuals():
     api = None
     with open("apiPickleFile.p", "rb") as f:
