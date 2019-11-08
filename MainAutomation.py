@@ -49,6 +49,7 @@ class MainAutomation(Thread):
             followers_object = utils.getTotalFollowers(self.api, self.api.username_id)
             following_object = utils.getTotalFollowing(self.api, self.api.username_id)
             
+            # convert to set to do set arithmetic
             followers = set(utils.user_pk_list(followers_object))
             following = set(utils.user_pk_list(following_object))
 
@@ -56,10 +57,11 @@ class MainAutomation(Thread):
             old_followers = set(self.mongoloid.get_followers())
             old_following = set(self.mongoloid.get_following())
 
+            # update account telemetry
             self.mongoloid.set_followers(utils.getTotalFollowers(self.api, self.api.username_id))
             self.mongoloid.set_following(utils.getTotalFollowing(self.api, self.api.username_id))    
 
-            # current followers - old followers = new following students
+            # current followers - old followers = accounts that have followed me in the last hour
             new_followers = followers - old_followers
             print("New Followers")
             print(new_followers)
@@ -71,17 +73,33 @@ class MainAutomation(Thread):
 
             # everyone in following, and not in followers, means that our follow is not mutual
             # and not in my favor
-            
             print("asymetric follows")
             asymetric_follows = following - followers
             asymetric_follows_object = []
+
+            # calculate who I unfollowed in the last iteration excluding who I just unfollowed
+            unfollowed = old_following - following
+            print("Unfollowed")
+            print(unfollowed)
+            print()
+
+            # calculate people who I recently followed
+            new_following = following - old_following
+            print("New Following")
+            print()
+
+            new_entries = new_followers.union(new_following)
+
             for target in asymetric_follows:
+                # see if the asymetric follow is in my userlist database
                 new_target = self.mongoloid.find_pk(target)
                 if(new_target == None):
+                    # if they don't exist in the database, add them to the database using their user PK
                     print("Target not found, using api to get info")
                     self.mongoloid.write_api_pk(self.api, target)
                     new_target = self.mongoloid.find_pk(target)
                 print(target)
+                # create a list of rich user objects
                 asymetric_follows_object.append(self.mongoloid.find_pk(target))
 
             # unfollow everyone who unfollowed me
@@ -91,17 +109,6 @@ class MainAutomation(Thread):
                     utils.unfollow_user(self.api, target)
                     # sleep for random normal distribution mu = 2 minutes sigma = 30 seconds
                     time.sleep(numpy.random.normal(120, 30))
-
-            unfollowed = old_following - following
-            print("Unfollowed")
-            print(unfollowed)
-            print()
-
-            new_following = following - old_following
-            print("New Following")
-            print()
-
-            new_entries = new_followers.union(new_following)
             
             # will put the new users into the database with the curent time
             for target in new_entries:
@@ -109,6 +116,7 @@ class MainAutomation(Thread):
                     print("Writing to database:")
                     self.mongoloid.write_user_item(target)
 
+            # people who unfollowed me and who I unfollowed get added to a blacklist so that I do not follow them again
             blacklist = unfollowed_me.union(unfollowed)
             for target in blacklist:
                 print("Adding to blacklist")
@@ -125,6 +133,7 @@ class MainAutomation(Thread):
                 #print(target)
                 return target['follow_time']
 
+            # unfollow old accounts who never followed me back
             print("Unfollowing random asymetric:")
             if(len(asymetric_follows) > 0):
                 # unfollow random people with lowest interaction time
@@ -133,8 +142,6 @@ class MainAutomation(Thread):
                     print(item['pk'])
                     utils.unfollow_user(self.api, item['pk'])
                     time.sleep(numpy.random.normal(120, 30))
-
-            print()
 
             # follow random people
             print("Following random people")

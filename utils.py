@@ -8,7 +8,7 @@ import numpy
 ratelimit = {
     # 5 minutes
     'interaction_delay': 60*5,
-    # 20 minutes
+    # 60 minutes
     'interaction_error': 60*60,
 
     # 10 minutes
