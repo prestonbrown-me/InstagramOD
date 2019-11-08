@@ -3,6 +3,8 @@ Automating those boring Instagram grinds.
 
 Most Instagram Bots employ a scatter shot tactic for their autofollows and likes. With only a limited number of rate-limited actions per day, it is important to try and maximize the effectiveness rate of your follows by increasing probability of **CTR** (click through rate) from an adveretising perspective.
 
+You can read more about some of my thoughts and future plans for this project [on my website](http://www.prestonbrown.me/posts/instagram-bot)
+
 ## Setup
  * Python dependencies are in requirements.txt: `pip install -r requirements.txt`
  * In *credentials.py*, you need to add your instagram login and MongoDB connection URL
