@@ -1,0 +1,3 @@
+[submodule "InstagramAPI"]
+	path = InstagramAPI
+	url = https://github.com/phbprogramming/InstagramAPI.git
