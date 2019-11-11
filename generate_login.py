@@ -8,5 +8,5 @@ def logIn():
     api.login()
 
     # dump the logged in pickle file for retrieval
-    with open("mainaccount.p", "wb") as f:
+    with open("/loginsessions/mainaccount.p", "wb") as f:
         pickle.dump(api, f)

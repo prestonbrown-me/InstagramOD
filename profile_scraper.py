@@ -24,14 +24,15 @@ class ProfileScraper(Thread):
 
 
         # attempt to reuse a session, if not regenerate a pickle file
+
         try:
-            with open(str(self.username) + ".p", "rb") as f:
+            with open ("/loginsessions/" + (str(self.username) + ".p", "rb") as f:
                 self.api = pickle.load(f)
         except:
             self.api = InstagramAPI(self.username, self.password)
             self.api.login()
 
-            with open(str(self.username) + ".p", "wb") as f:
+            with open("/loginsessions/" + str(self.username) + ".p", "wb") as f:
                 pickle.dump(self.api, f)
         
 

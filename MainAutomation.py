@@ -26,7 +26,7 @@ class MainAutomation(Thread):
         generate_login.logIn()
 
         # attempt to log in, if file is not found, generate a login session
-        with open("mainaccount.p", "rb") as f:
+        with open("/loginsessions/mainaccount.p", "rb") as f:
             self.api = pickle.load(f)
 
         # if databse is not populated with account telemetry, then retrieve and populate
