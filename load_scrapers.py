@@ -19,4 +19,4 @@ for item in logins:
     threads.append(scraper)
     scraper.start()
 
-threads[0].join()
+main_automation.join()
