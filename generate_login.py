@@ -13,5 +13,5 @@ def logIn():
     api.login()
 
     # dump the logged in pickle file for retrieval
-    with open("/loginsessions/mainaccount.p", "wb") as f:
+    with open(os.path.curdir + "/loginsessions/mainaccount.p", "wb") as f:
         pickle.dump(api, f)
