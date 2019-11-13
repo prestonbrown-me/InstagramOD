@@ -9,7 +9,7 @@ You can read more about some of my thoughts and future plans for this project [o
  * Python dependencies are in requirements.txt: `pip install -r requirements.txt`
  * In *credentials.py*, you need to add your instagram login and MongoDB connection URL
  * Get a free mongo cloud server [here](https://www.mongodb.com/download-center/cloud)
- * See instructions in *load_scrapers.py* to add scraping bots to your botnet
+ * See instructions in *credentials.py* to add scraping bots to your botnet
 
 ## Run
 After you have finished simply run `python load_scrapers.py`
