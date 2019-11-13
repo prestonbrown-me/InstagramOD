@@ -8,6 +8,7 @@ import re
 import generate_login
 import datetime
 import numpy
+import os
 
 class MainAutomation(Thread):
 
@@ -26,7 +27,7 @@ class MainAutomation(Thread):
         generate_login.logIn()
 
         # attempt to log in, if file is not found, generate a login session
-        with open("/loginsessions/mainaccount.p", "rb") as f:
+        with open(os.path.curdir + "/loginsessions/mainaccount.p", "rb") as f:
             self.api = pickle.load(f)
 
         # if databse is not populated with account telemetry, then retrieve and populate

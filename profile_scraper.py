@@ -5,6 +5,7 @@ import time
 import pickle
 from threading import Thread
 import re
+import os
 
 #### Class that performs botnet scraping
 class ProfileScraper(Thread):
@@ -25,13 +26,13 @@ class ProfileScraper(Thread):
 
         # attempt to reuse a session, if not regenerate a pickle file
         try:
-            with open ("/loginsessions/" + (str(self.username) + ".p", "rb")) as f:
+            with open (os.path.curdir + "/loginsessions/" + (str(self.username) + ".p", "rb")) as f:
                 self.api = pickle.load(f)
         except:
             self.api = InstagramAPI(self.username, self.password)
             self.api.login()
 
-            with open("/loginsessions/" + str(self.username) + ".p", "wb") as f:
+            with open(os.path.curdir + "/loginsessions/" + str(self.username) + ".p", "wb") as f:
                 pickle.dump(self.api, f)
         
 
