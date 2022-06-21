@@ -1,7 +1,7 @@
 # MainAutomation.py: 10
 # OverdriveDB.py: 12
 # utils.py: 6
-numpy == 1.16.1
+numpy == 1.22.0
 
 # OverdriveDB.py: 1,2
 pymongo == 3.7.2
