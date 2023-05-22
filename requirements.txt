@@ -7,5 +7,5 @@ numpy == 1.16.1
 pymongo == 3.7.2
 
 # InstagramAPI\InstagramAPI.py: 3,22
-requests == 2.21.0
+requests == 2.31.0
 
